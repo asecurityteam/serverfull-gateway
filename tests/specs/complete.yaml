@@ -1,0 +1,60 @@
+openapi: 3.0.0
+x-runtime:
+  httpserver:
+    address: ":9090"
+  logger:
+    level: "INFO"
+    output: "STDOUT"
+  stats:
+    output: "NULL"
+    datadog:
+      address: "statsd:8126"
+      flushinterval: "10s"
+  signals:
+    installed:
+      - "OS"
+    os:
+      signals:
+        - 2 # SIGINT
+        - 15 # SIGTERM
+x-transportd:
+  backends:
+    - app
+  app:
+    host: "${TEST_HOST}"
+    pool:
+      ttl: "24h"
+      count: 1
+info:
+  version: 1.0.0
+  title: Sample specification
+  description: Used for testing
+  contact:
+    name: n/a
+    email: na@localhost.com
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /:
+    post:
+      x-transportd:
+        backend: app
+        enabled:
+          - lambda
+        lambda:
+          arn: "test"
+          async: false
+          request: '{}'
+          success: '{"status": 200, "body": {"v2":"#!.Response.Body.v!#"}}'
+          error: '{"status": 500, "bodyPassthrough": true}'
+      description: Publish a message.
+      requestBody:
+        required: true
+        description: The event to publish.
+        application/json:
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Success"

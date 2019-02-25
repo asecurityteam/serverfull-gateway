@@ -1,0 +1,163 @@
+openapi: 3.0.0
+x-runtime:
+  httpserver:
+    address: ":8080"
+  logger:
+    level: "INFO"
+    output: "STDOUT"
+  stats:
+    output: "NULL"
+    datadog:
+      address: "statsd:8126"
+      flushinterval: "10s"
+  signals:
+    installed:
+      - "OS"
+    os:
+      signals:
+        - 2 # SIGINT
+        - 15 # SIGTERM
+x-transportd:
+  backends:
+    - digesterApi
+  digesterApi: # external endpoint
+    host: "https://localhost/${DIGESTER_API_ENDPOINT}"
+    pool:
+      ttl: "10m"
+      count: 5
+info:
+  version: 1.0.0
+  title: VPC Digester
+  description: VPC Flow Log Digester API
+  contact:
+    name: SecDev
+    email: secdev@atlassian.com
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /digester:
+    get:
+      x-transportd:
+        backend: digesterApi
+        enabled:
+          - metrics
+          - accesslog
+          - timeout
+          - hedging
+          - retry
+          - lambda
+        timeout:
+          after: "250ms"
+        hedging:
+          after: "50ms"
+        retry:
+          codes:
+            - 500
+            - 501
+            - 502
+            - 503
+            - 504
+            - 505
+            - 506
+            - 507
+            - 508
+            - 509
+            - 510
+            - 511
+          limit: 3
+          backoff: "50ms"
+        lambda:
+          name: "lambdaFuncName"
+          requestTemplate: '{"start": "#!.Request.Query.Get "start"!#", "end": "#!.Request.Query.Get "start"!#"}'
+          success: '{"status": 200, "header":{"key1": ["value1"]}, "rawBody": true, "emptyBody": false, "body": {}}'
+          error: '{"status": 500, "body": {"message": "#!.Response.errorMessage!#"}}'
+      description: Fetch a digest.
+      operationId: fetchDigest
+      parameters:
+        - name: "start"
+          in: "query"
+          description: "The start time of the digest. Input will be parsed as an RFC3339Nano timestamp, and will be truncated to minute precision."
+          required: true
+          type: "string"
+          format: "date-time"
+        - name: "stop"
+          in: "query"
+          description: "The stop time of the digest. Input will be parsed as an RFC3339Nano timestamp, and will be truncated to minute precision."
+          required: true
+          type: "string"
+          format: "date-time"
+      responses:
+        "404":
+          description: "The digest for this range does not exist yet."
+        "204":
+          description: "The digest is created but not yet complete."
+        "200":
+          description: "Success."
+          content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+    post:
+      x-transportd:
+        backend: digesterApi
+        enabled:
+          - timeout
+          - hedging
+          - retry
+      #     - asaptoken
+        timeout:
+          after: "250ms"
+        hedging:
+          after: "50ms"
+        retry:
+          codes:
+            - 500
+            - 501
+            - 502
+            - 503
+            - 504
+            - 505
+            - 506
+            - 507
+            - 508
+            - 509
+            - 510
+            - 511
+          limit: 3
+          backoff: "50ms"
+        asaptoken:
+          audiences:
+            - "grapher_api"
+          kid: "${ASAP_KEY_ID}"
+          ttl: "1h"
+          iss: "${ASAP_ISSUER}"
+          privateKey: "${ASAP_PRIVATE_KEY}"
+          reuseTokens: true
+      description: Generate a digest.
+      operationId: generateDigest
+      parameters:
+        - name: "start"
+          in: "query"
+          description: "The start time of the digest. Input will be parsed as an RFC3339Nano timestamp, and will be truncated to minute precision."
+          required: true
+          type: "string"
+          format: "date-time"
+        - name: "stop"
+          in: "query"
+          description: "The stop time of the digest. Input will be parsed as an RFC3339Nano timestamp, and will be truncated to minute precision."
+          required: true
+          type: "string"
+          format: "date-time"
+      responses:
+        "202":
+          description: The digest will be created.
+        "409":
+          description: The digest already exists.
+        default:
+          description: unexpected error
+          content:
+            application/text:
+              schema:
+                type: string
