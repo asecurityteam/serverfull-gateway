@@ -44,11 +44,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f0efb70549251a537f06f31578b98ae7b856f7f067cc1cc41c1d6eadcc97928e"
+  digest = "1:b38f85eccee966d436ec5cabbf3f04ec3a6389fcf8456597013f94f89a3f8e84"
   name = "github.com/asecurityteam/runhttp"
   packages = ["."]
   pruneopts = "UT"
-  revision = "59625dff40b30e0db17b88a6547a8e3232a57eda"
+  revision = "d2a64958466a112b009e8d0e14fa6a45b6a11784"
 
 [[projects]]
   branch = "master"
@@ -75,7 +75,7 @@
     "pkg/components",
   ]
   pruneopts = "UT"
-  revision = "7578b161d80a8a0e67d12bf68de9700b8886e219"
+  revision = "ff5f86e4e720925679a8e09158504a5b211ae1d9"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -207,7 +207,7 @@
   name = "golang.org/x/net"
   packages = ["context"]
   pruneopts = "UT"
-  revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
+  revision = "fe579d43d83210096a79b46dcca0e3721058393a"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
