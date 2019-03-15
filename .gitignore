@@ -132,6 +132,9 @@ flycheck_*.el
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Dep lock file
+Gopkg.lock
+
 ### Go Patch ###
 /vendor/
 /Godeps/
