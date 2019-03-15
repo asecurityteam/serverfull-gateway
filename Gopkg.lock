@@ -44,19 +44,19 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:b38f85eccee966d436ec5cabbf3f04ec3a6389fcf8456597013f94f89a3f8e84"
+  digest = "1:fe321de7854c65af149fe7c66a7ed3ad82046902536e1aa41ec509f5fb942426"
   name = "github.com/asecurityteam/runhttp"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d2a64958466a112b009e8d0e14fa6a45b6a11784"
+  revision = "60620809c4931ced5fde6400c2462236cf3e9c16"
 
 [[projects]]
   branch = "master"
-  digest = "1:5d1a26a6e3312c38a5d2f498aabcddb2335278e1da07503da71b1b53e2f6992f"
+  digest = "1:391bbf4e67d50d74c1bb7dfad79222181327ff6d9a32324ed022b12051b5d5e8"
   name = "github.com/asecurityteam/settings"
   packages = ["."]
   pruneopts = "UT"
-  revision = "79c37a4bd1338811b72393481be2f9ca0315d162"
+  revision = "d4142d59861b3779aeba32111096d43ae940e49d"
 
 [[projects]]
   digest = "1:067d27a5520b7ab98a652f32b33785de2ffc7028e50c722c993e7ee218046a30"
@@ -68,14 +68,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0203397a2a7cab8cc6729b9c08ab7e01a42876ff3c3557aeb64e2d0a46f67d9c"
+  digest = "1:5b301aabe51d73d14676a120fb6e064faaa14b3039b5b7c19646dd112c9b4030"
   name = "github.com/asecurityteam/transportd"
   packages = [
     "pkg",
     "pkg/components",
   ]
   pruneopts = "UT"
-  revision = "ff5f86e4e720925679a8e09158504a5b211ae1d9"
+  revision = "70ed2fe8789a8405d47ec9aff014984ac227de4f"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -131,12 +131,12 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:236d7e1bdb50d8f68559af37dbcf9d142d56b431c9b2176d41e2a009b664cda8"
+  digest = "1:582b704bebaa06b48c29b0cec224a6058a09c86883aaddabde889cd1a5f73e1b"
   name = "github.com/google/uuid"
   packages = ["."]
   pruneopts = "UT"
-  revision = "9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8"
-  version = "v1.1.0"
+  revision = "0cd6bf5da1e1c83f8b45653022c74f71af0538a4"
+  version = "v1.1.1"
 
 [[projects]]
   digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
@@ -166,7 +166,7 @@
   revision = "c67367528e160e557423e4d87059614d8c31a582"
 
 [[projects]]
-  digest = "1:6112a5eaec2ec65df289ccbb7a730aaf03e3c5cce6c906d367ccf9b7ac567604"
+  digest = "1:9be615b2a72fc4a99e623c6776cce3afe3451741c34ea1805ea4a9b58604b9df"
   name = "github.com/rs/zerolog"
   packages = [
     ".",
@@ -174,8 +174,8 @@
     "internal/json",
   ]
   pruneopts = "UT"
-  revision = "8747b7b3a51b5d08ee7ac50eaf4869edaf9f714a"
-  version = "v1.11.0"
+  revision = "6d6350a51143b5c0d0a6a3b736ee2b41315f7269"
+  version = "v1.12.0"
 
 [[projects]]
   digest = "1:08d65904057412fc0270fc4812a1c90c594186819243160dc779a402d4b6d0bc"
@@ -207,7 +207,7 @@
   name = "golang.org/x/net"
   packages = ["context"]
   pruneopts = "UT"
-  revision = "fe579d43d83210096a79b46dcca0e3721058393a"
+  revision = "9f648a60d9775ef5c977e7669d1673a7a67bef33"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
