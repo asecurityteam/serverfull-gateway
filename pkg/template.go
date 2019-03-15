@@ -78,11 +78,15 @@ func NewResponse(r *http.Response) (Response, error) {
 // NewRequest converts and http.Request into a template Request.
 func NewRequest(urlParamFn func(context.Context) map[string]string, r *http.Request) (Request, error) {
 	d := make(map[string]interface{})
-	if r.ContentLength > 0 {
-		b, err := ioutil.ReadAll(r.Body)
+	var b []byte
+	var err error
+	if r.Body != nil {
+		b, err = ioutil.ReadAll(r.Body)
 		if err != nil {
 			return emptyRequest, err
 		}
+	}
+	if len(b) > 0 {
 		err = json.Unmarshal(b, &d)
 		if err != nil {
 			return emptyRequest, err
