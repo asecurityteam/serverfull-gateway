@@ -13,6 +13,7 @@ import (
 	serverfullgw "github.com/asecurityteam/serverfull-gateway/pkg"
 	transportd "github.com/asecurityteam/transportd/pkg"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestLambda(t *testing.T) {
@@ -31,7 +32,7 @@ func TestLambda(t *testing.T) {
 
 	done := make(chan error)
 	rt, err := transportd.New(context.Background(), spec, serverfullgw.Lambda)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 	rt.Exit = func() chan error {
 		return done
 	}
@@ -39,7 +40,7 @@ func TestLambda(t *testing.T) {
 
 	req, _ := http.NewRequest(http.MethodPost, "http://localhost:9090", http.NoBody)
 	resp, err := http.DefaultClient.Do(req)
-	assert.Nil(t, err)
+	require.Nil(t, err)
 	defer resp.Body.Close()
 
 	respB, _ := ioutil.ReadAll(resp.Body)
