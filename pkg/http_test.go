@@ -237,9 +237,16 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 						}
 					},
 				).Return(&http.Response{
-					StatusCode:    200,
-					Body:          ioutil.NopCloser(bytes.NewBufferString(lambdaResponse)),
-					ContentLength: 2,
+					StatusCode: 200,
+					Body:       ioutil.NopCloser(bytes.NewBufferString(lambdaResponse)),
+					// Setting ContentLength to zero in order to test for cases where the body
+					// is non-zero but the length is not reported. A Go HTTP server usually
+					// writes the content length for responses but only if the body is under
+					// a certain size and there are no calls to Flush(). Larger payloads, then,
+					// result in a missing content-length value. Previous versions of the project
+					// checked the ContentLength attributes in a switch which failed when the
+					// body was populated but mis-reported.
+					ContentLength: 0,
 				}, nil)
 			}
 

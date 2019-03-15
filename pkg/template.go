@@ -58,11 +58,11 @@ type TemplateContext struct {
 // NewResponse converts an http.Response into a template Response.
 func NewResponse(r *http.Response) (Response, error) {
 	d := make(map[string]interface{})
-	if r.ContentLength > 0 {
-		b, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			return emptyResponse, err
-		}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return emptyResponse, err
+	}
+	if len(b) > 0 {
 		err = json.Unmarshal(b, &d)
 		if err != nil {
 			return emptyResponse, err
