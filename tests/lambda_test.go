@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	serverfullgw "github.com/asecurityteam/serverfull-gateway/pkg"
 	transportd "github.com/asecurityteam/transportd/pkg"
@@ -21,7 +22,7 @@ func TestLambda(t *testing.T) {
 	assert.Nil(t, err)
 	defer f.Close()
 	spec, _ := ioutil.ReadAll(f)
-	reqs := make(chan *http.Request, 1)
+	reqs := make(chan *http.Request, 100)
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		reqs <- r
 		w.WriteHeader(http.StatusOK)
@@ -29,17 +30,34 @@ func TestLambda(t *testing.T) {
 	}))
 	defer srv.Close()
 	os.Setenv("TEST_HOST", srv.URL)
+	port, err := getPort()
+	require.Nil(t, err)
+	os.Setenv("TEST_SERVER_PORT", port)
 
-	done := make(chan error)
+	done := make(chan error, 1)
 	rt, err := transportd.New(context.Background(), spec, serverfullgw.Lambda)
 	require.Nil(t, err)
 	rt.Exit = done
-	go func() { _ = rt.Run() }()
-
-	req, _ := http.NewRequest(http.MethodPost, "http://localhost:9090", http.NoBody)
-	resp, err := http.DefaultClient.Do(req)
+	go func() {
+		if runErr := rt.Run(); runErr != nil {
+			t.Log(runErr)
+		}
+	}()
+	stop := time.Now().Add(time.Second)
+	var resp *http.Response
+	var req *http.Request
+	for time.Now().Before(stop) {
+		req, _ = http.NewRequest(http.MethodPost, "http://127.0.0.1:"+port, http.NoBody)
+		resp, err = http.DefaultClient.Do(req)
+		if err != nil {
+			t.Log(err)
+			time.Sleep(100 * time.Millisecond)
+			continue
+		}
+		defer resp.Body.Close()
+		break
+	}
 	require.Nil(t, err)
-	defer resp.Body.Close()
 
 	respB, _ := ioutil.ReadAll(resp.Body)
 	assert.Equal(t, []byte(`{"v2":"R"}`), respB)
