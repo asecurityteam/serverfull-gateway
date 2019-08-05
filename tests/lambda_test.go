@@ -33,9 +33,7 @@ func TestLambda(t *testing.T) {
 	done := make(chan error)
 	rt, err := transportd.New(context.Background(), spec, serverfullgw.Lambda)
 	require.Nil(t, err)
-	rt.Exit = func() chan error {
-		return done
-	}
+	rt.Exit = done
 	go func() { _ = rt.Run() }()
 
 	req, _ := http.NewRequest(http.MethodPost, "http://localhost:9090", http.NoBody)
