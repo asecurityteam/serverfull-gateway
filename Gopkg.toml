@@ -4,7 +4,7 @@
 
 [[constraint]]
   name = "github.com/asecurityteam/transportd"
-  branch = "fine_grain_auth"
+  branch = "ldap_auth"
 
 [[constraint]]
   name = "github.com/stretchr/testify"
