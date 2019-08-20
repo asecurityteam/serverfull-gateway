@@ -9,7 +9,7 @@ require (
 	github.com/asecurityteam/logevent v0.0.0-20190226170331-bd08b415fa07 // indirect
 	github.com/asecurityteam/settings v0.1.1-0.20190816180606-5974b79327c0 // indirect
 	github.com/asecurityteam/transport v0.0.0-20190226170354-ece304d5c3ef // indirect
-	github.com/asecurityteam/transportd v0.4.3-0.20190819220156-5853f9eb5f44
+	github.com/asecurityteam/transportd v0.4.3-0.20190820205056-7d0b3681b1a5
 	github.com/getkin/kin-openapi v0.2.0 // indirect
 	github.com/golang/mock v1.3.1
 	github.com/google/uuid v1.1.1 // indirect
