@@ -17,3 +17,5 @@ require (
 	github.com/rs/zerolog v1.15.0 // indirect
 	github.com/stretchr/testify v1.3.0
 )
+
+replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
