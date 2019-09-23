@@ -7,9 +7,8 @@ require (
 	github.com/asecurityteam/component-connstate v0.1.1 // indirect
 	github.com/asecurityteam/httpstats v0.0.0-20190226170324-c55d5aa67c11 // indirect
 	github.com/asecurityteam/logevent v0.0.0-20190226170331-bd08b415fa07 // indirect
-	github.com/asecurityteam/settings v0.3.0
 	github.com/asecurityteam/transport v0.0.0-20190226170354-ece304d5c3ef // indirect
-	github.com/asecurityteam/transportd v0.4.4
+	github.com/asecurityteam/transportd v0.4.5
 	github.com/getkin/kin-openapi v0.2.0 // indirect
 	github.com/golang/mock v1.3.1
 	github.com/google/uuid v1.1.1 // indirect
