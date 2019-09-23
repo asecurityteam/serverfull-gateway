@@ -9,10 +9,13 @@ require (
 	github.com/asecurityteam/logevent v0.0.0-20190226170331-bd08b415fa07 // indirect
 	github.com/asecurityteam/transport v0.0.0-20190226170354-ece304d5c3ef // indirect
 	github.com/asecurityteam/transportd v0.4.5
-	github.com/getkin/kin-openapi v0.2.0 // indirect
+	github.com/getkin/kin-openapi v0.2.1-0.20190729060947-8785b416cb32 // indirect
 	github.com/golang/mock v1.3.1
 	github.com/google/uuid v1.1.1 // indirect
+	github.com/justinas/alice v0.0.0-20171023064455-03f45bd4b7da // indirect
+	github.com/rs/cors v1.7.0 // indirect
 	github.com/rs/xhandler v0.0.0-20170707052532-1eb70cf1520d // indirect
+	github.com/rs/xlog v0.0.0-20171227185259-131980fab91b // indirect
 	github.com/rs/zerolog v1.15.0 // indirect
 	github.com/stretchr/testify v1.3.0
 )
