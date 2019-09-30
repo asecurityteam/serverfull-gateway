@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"text/template"
 
+	awsc "github.com/asecurityteam/component-aws"
 	transportd "github.com/asecurityteam/transportd/pkg"
+	v4 "github.com/aws/aws-sdk-go/aws/signer/v4"
 )
 
 var (
@@ -26,6 +28,7 @@ type Config struct {
 	Request string `description:"Template string to transform incoming requests to Lambda requests."`
 	Success string `description:"Template string to transform a success response into a proxy response."`
 	Error   string `description:"Template string to transform a Lambda error response into a proxy response."`
+	Session *awsc.SessionConfig
 }
 
 // Name of the config root.
@@ -34,20 +37,31 @@ func (*Config) Name() string {
 }
 
 // Component implements the settings.Component interface.
-type Component struct{}
+type Component struct {
+	Session *awsc.SessionComponent
+}
 
 // Lambda satisfies the transportd.NeComponent signature.
 func Lambda(_ context.Context, _ string, _ string, _ string) (interface{}, error) {
-	return &Component{}, nil
+	return &Component{
+		Session: awsc.NewSessionComponent(),
+	}, nil
 }
 
 // Settings returns a config with defaults set.
-func (*Component) Settings() *Config {
-	return &Config{}
+func (c *Component) Settings() *Config {
+	return &Config{
+		Session: c.Session.Settings(),
+	}
 }
 
 // New creates the middleware.
-func (*Component) New(_ context.Context, conf *Config) (func(http.RoundTripper) http.RoundTripper, error) {
+func (c *Component) New(ctx context.Context, conf *Config) (func(http.RoundTripper) http.RoundTripper, error) {
+	sesh, err := c.Session.New(ctx, conf.Session)
+	if err != nil {
+		return nil, fmt.Errorf("failed to establish an AWS session")
+	}
+	sig := v4.NewSigner(sesh.Config.Credentials)
 	rT, err := template.New("request").Funcs(fns).Delims("#!", "!#").Parse(conf.Request)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse request template: %s", err.Error())
@@ -69,6 +83,10 @@ func (*Component) New(_ context.Context, conf *Config) (func(http.RoundTripper) 
 			RequestTemplate:         rT,
 			ResponseSuccessTemplate: sT,
 			ResponseErrorTemplate:   eT,
+			Signer: &AWSSigner{
+				Session: sesh,
+				Signer:  sig,
+			},
 		}
 	}, nil
 }
