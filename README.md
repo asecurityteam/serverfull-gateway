@@ -116,6 +116,18 @@ paths:
           success: '{"status": 200, "body": {"v":"#!.Response.Body.someValue!#"}}'
           error: '{"status": 500, "bodyPassthrough": true}'
           # See "Templates" for more details
+          session:
+            region: "us-west-2"
+            sharedprofile: # Optional profile configuration.
+              file: "" # Blank for AWS default location
+              profile: "" # Name of the AWS profile defined in the file.
+            static: # Optional static credentials
+              id: "" # AWS access key ID.
+              secret: "" # AWS secret key.
+              token: "" # Optional temporary access token.
+            assumerole: # Optional assume role credentials.
+              role: "" # ARN of the role to assume.
+              externalid: "" # Optional cross-account role identifier.
       description: Sample endpoint.
       requestBody:
         required: true
