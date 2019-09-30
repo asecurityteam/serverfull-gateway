@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/asecurityteam/serverfull-gateway/pkg"
-	"github.com/asecurityteam/transportd/pkg"
+	serverfullgw "github.com/asecurityteam/serverfull-gateway/pkg"
+	transportd "github.com/asecurityteam/transportd/pkg"
 	"github.com/asecurityteam/transportd/pkg/components"
 	"github.com/stretchr/testify/assert"
 )
