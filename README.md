@@ -1,6 +1,6 @@
 <a id="markdown-serverfull-gateway---an-aws-api-gateway-stand-in-for-serverfull" name="serverfull-gateway---an-aws-api-gateway-stand-in-for-serverfull"></a>
 # Serverfull-Gateway - An AWS API Gateway Stand-In For Serverfull
-
+[![GoDoc](https://godoc.org/github.com/asecurityteam/serverfull-gateway?status.svg)](https://godoc.org/github.com/asecurityteam/serverfull-gateway)
 *Status: Incubation*
 
 <!-- TOC -->
