@@ -23,12 +23,13 @@ var (
 
 // Config contains all settings for the lambda plugin.
 type Config struct {
-	ARN     string `description:"Name/ARN of the lambda to invoke."`
-	Async   bool   `description:"Fire and forget rather than wait for a response."`
-	Request string `description:"Template string to transform incoming requests to Lambda requests."`
-	Success string `description:"Template string to transform a success response into a proxy response."`
-	Error   string `description:"Template string to transform a Lambda error response into a proxy response."`
-	Session *awsc.SessionConfig
+	ARN          string `description:"Name/ARN of the lambda to invoke."`
+	Async        bool   `description:"Fire and forget rather than wait for a response."`
+	Request      string `description:"Template string to transform incoming requests to Lambda requests."`
+	Success      string `description:"Template string to transform a success response into a proxy response."`
+	Error        string `description:"Template string to transform a Lambda error response into a proxy response."`
+	Authenticate bool   `description:"Whether or not to use AWS authentication in a request."`
+	Session      *awsc.SessionConfig
 }
 
 // Name of the config root.
@@ -57,11 +58,18 @@ func (c *Component) Settings() *Config {
 
 // New creates the middleware.
 func (c *Component) New(ctx context.Context, conf *Config) (func(http.RoundTripper) http.RoundTripper, error) {
-	sesh, err := c.Session.New(ctx, conf.Session)
-	if err != nil {
-		return nil, fmt.Errorf("failed to establish an AWS session")
+	var sign Signer = &NOPSigner{}
+	if conf.Authenticate {
+		sesh, err := c.Session.New(ctx, conf.Session)
+		if err != nil {
+			return nil, fmt.Errorf("failed to establish an AWS session")
+		}
+		sign = &AWSSigner{
+			Session: sesh,
+			Signer:  v4.NewSigner(sesh.Config.Credentials),
+		}
 	}
-	sig := v4.NewSigner(sesh.Config.Credentials)
+
 	rT, err := template.New("request").Funcs(fns).Delims("#!", "!#").Parse(conf.Request)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse request template: %s", err.Error())
@@ -83,10 +91,7 @@ func (c *Component) New(ctx context.Context, conf *Config) (func(http.RoundTripp
 			RequestTemplate:         rT,
 			ResponseSuccessTemplate: sT,
 			ResponseErrorTemplate:   eT,
-			Signer: &AWSSigner{
-				Session: sesh,
-				Signer:  sig,
-			},
+			Signer:                  sign,
 		}
 	}, nil
 }

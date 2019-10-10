@@ -116,8 +116,9 @@ paths:
           success: '{"status": 200, "body": {"v":"#!.Response.Body.someValue!#"}}'
           error: '{"status": 500, "bodyPassthrough": true}'
           # See "Templates" for more details
-          session:
-            region: "us-west-2"
+          authenticate: false # Toggle to enable AWS authentication for requests.
+          session: # Optional AWS session authentication configuration.
+            region: "us-west-2" # Required AWS region for requests (if auth enabled).
             sharedprofile: # Optional profile configuration.
               file: "" # Blank for AWS default location
               profile: "" # Name of the AWS profile defined in the file.

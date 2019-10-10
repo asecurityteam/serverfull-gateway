@@ -25,3 +25,11 @@ func (s *AWSSigner) Sign(r *http.Request, body io.ReadSeeker) error {
 	_, err := s.Signer.Sign(r, body, "lambda", *s.Session.Config.Region, time.Now())
 	return err
 }
+
+// NOPSigner does nothing and is used for backwards compatibility.
+type NOPSigner struct{}
+
+// Sign a request by doing nothing.
+func (s *NOPSigner) Sign(r *http.Request, body io.ReadSeeker) error {
+	return nil
+}

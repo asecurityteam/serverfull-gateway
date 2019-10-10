@@ -48,6 +48,7 @@ paths:
           request: '{}'
           success: '{"status": 200, "body": {"v2":"#!.Response.Body.v!#"}}'
           error: '{"status": 500, "bodyPassthrough": true}'
+          authenticate: true
           session:
             region: "us-east-1"
             static:
