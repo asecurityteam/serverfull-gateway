@@ -3,7 +3,7 @@ RUN mkdir -p /go/src/github.com/asecurityteam/serverfull-gateway
 WORKDIR /go/src/github.com/asecurityteam/serverfull-gateway
 COPY --chown=sdcli:sdcli . .
 RUN sdcli go dep
-RUN GOFLAGS='-mod=vendor' GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o /opt/app main.go
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o /opt/app main.go
 
 ##################################
 
