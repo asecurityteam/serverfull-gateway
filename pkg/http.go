@@ -52,6 +52,7 @@ type LambdaTransport struct {
 	RequestTemplate         *template.Template
 	ResponseSuccessTemplate *template.Template
 	ResponseErrorTemplate   *template.Template
+	Signer                  Signer
 }
 
 // RoundTrip converts an incoming request to a Lambda Invoke API call.
@@ -67,16 +68,17 @@ func (r *LambdaTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 		return newError(http.StatusInternalServerError, err.Error()), nil
 	}
 
-	req.URL.RawQuery = ""
 	req.Method = http.MethodPost
 	req.URL.Path = path.Join("/", "2015-03-31", "functions", r.Name, "invocations")
-	req.RequestURI = req.URL.Path
 	req.Header = http.Header{}
 	req.ContentLength = int64(reqBody.Len())
 	req.Body = ioutil.NopCloser(&reqBody)
-
 	if r.Async {
 		req.Header.Set("X-Amz-Invocation-Type", "Event")
+	}
+
+	if err = r.Signer.Sign(req, bytes.NewReader(reqBody.Bytes())); err != nil {
+		return newError(http.StatusInternalServerError, err.Error()), nil
 	}
 	resp, err := r.Wrapped.RoundTrip(req)
 	if err != nil {

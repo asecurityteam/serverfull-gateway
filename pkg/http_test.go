@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"path"
@@ -38,6 +39,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 		wantErr           bool
 		wantCallWrapped   bool
 		wantErrorResponse bool
+		wantSign          bool
+		wantSignError     bool
 	}{
 		{
 			name: "success",
@@ -64,6 +67,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   true,
 			wantErrorResponse: false,
+			wantSign:          true,
+			wantSignError:     false,
 		},
 		{
 			name: "success async",
@@ -90,6 +95,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   true,
 			wantErrorResponse: false,
+			wantSign:          true,
+			wantSignError:     false,
 		},
 		{
 			name: "success passthrough",
@@ -116,6 +123,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   true,
 			wantErrorResponse: false,
+			wantSign:          true,
+			wantSignError:     false,
 		},
 		{
 			name: "body not json",
@@ -146,6 +155,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   false,
 			wantErrorResponse: true,
+			wantSign:          false,
+			wantSignError:     false,
 		},
 		{
 			name: "bad request template",
@@ -176,6 +187,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   false,
 			wantErrorResponse: true,
+			wantSign:          false,
+			wantSignError:     false,
 		},
 		{
 			name: "bad success template",
@@ -206,6 +219,40 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			wantErr:           false,
 			wantCallWrapped:   true,
 			wantErrorResponse: true,
+			wantSign:          true,
+			wantSignError:     false,
+		},
+		{
+			name: "bad credentials",
+			fields: fields{
+				Name:            "success",
+				Async:           false,
+				RequestTemplate: newTemplate(`{"v": "#!.Request.Header.T!#"}`),
+				ResponseSuccessTemplate: newTemplate(
+					`{"status": 200, "header": {}, "bodyPassthrough": false, "body": {"v2": "#!.Response.Body.v!#"}}`,
+				),
+				ResponseErrorTemplate: newTemplate(
+					`{"status": 500, "header": {}, "bodyPassthrough": false, "body": {}}`,
+				),
+			},
+			args: args{
+				req: newRequestBody(MultiMap{"T": []string{"V"}}, MultiMap{}, `{}`),
+			},
+			want: &http.Response{
+				StatusCode: 500,
+				Status:     http.StatusText(500),
+				Body: ioutil.NopCloser(bytes.NewBufferString(
+					`{"code":500,"status":"Internal Server Error"}`,
+				)),
+				Header: http.Header{
+					"Content-Type": []string{"application/json"},
+				},
+			},
+			wantErr:           false,
+			wantCallWrapped:   false,
+			wantErrorResponse: true,
+			wantSign:          true,
+			wantSignError:     true,
 		},
 	}
 	for _, tt := range tests {
@@ -214,6 +261,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			defer ctrl.Finish()
 
 			wrapped := NewMockRoundTripper(ctrl)
+			signer := NewMockSigner(ctrl)
 			r := &LambdaTransport{
 				Wrapped:                 wrapped,
 				URLParamFn:              func(context.Context) map[string]string { return make(map[string]string) },
@@ -222,6 +270,14 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 				RequestTemplate:         tt.fields.RequestTemplate,
 				ResponseSuccessTemplate: tt.fields.ResponseSuccessTemplate,
 				ResponseErrorTemplate:   tt.fields.ResponseErrorTemplate,
+				Signer:                  signer,
+			}
+			if tt.wantSign {
+				if tt.wantSignError {
+					signer.EXPECT().Sign(gomock.Any(), gomock.Any()).Return(fmt.Errorf("sign error"))
+				} else {
+					signer.EXPECT().Sign(gomock.Any(), gomock.Any()).Return(nil)
+				}
 			}
 			if tt.wantCallWrapped {
 				wrapped.EXPECT().RoundTrip(gomock.Any()).Do(

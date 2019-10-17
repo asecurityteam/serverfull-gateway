@@ -63,6 +63,11 @@ func TestLambda(t *testing.T) {
 	assert.Equal(t, []byte(`{"v2":"R"}`), respB)
 	done <- nil
 
-	req = <-reqs
+	select {
+	case req = <-reqs:
+	case <-time.After(2 * time.Second):
+		t.Fatal("handler was not activated after 2 seconds")
+	}
+
 	assert.Equal(t, "/2015-03-31/functions/test/invocations", req.URL.Path)
 }

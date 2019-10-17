@@ -20,10 +20,13 @@ test:
         asecurityteam/sdcli:v1 go test
 
 integration:
-	docker run -ti \
-        --mount src="$(DIR)",target="$(DIR)",type="bind" \
-        -w "$(DIR)" \
-        asecurityteam/sdcli:v1 go integration
+	DIR=$(DIR) \
+	docker-compose \
+		-f docker-compose.it.yml \
+		up \
+			--abort-on-container-exit \
+			--build \
+			--exit-code-from test
 
 coverage:
 	docker run -ti \
