@@ -44,14 +44,14 @@ func (r *swaggerUITransport) RoundTrip(req *http.Request) (*http.Response, error
 		}
 
 		response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(fileContents)), StatusCode: http.StatusOK}
-		contentTypeHeader := "text/html"
-		if strings.HasSuffix(filePath, ".js") {
-			contentTypeHeader = "application/javascript"
-		} else if strings.HasSuffix(filePath, ".json") {
-			contentTypeHeader = "application/json"
-		}
+		// contentTypeHeader := "text/html"
+		// if strings.HasSuffix(filePath, ".js") {
+		// 	contentTypeHeader = "application/javascript"
+		// } else if strings.HasSuffix(filePath, ".json") {
+		// 	contentTypeHeader = "application/json"
+		// }
 
-		response.Header.Add("Content-Type", contentTypeHeader)
+		// response.Header.Add("Content-Type", contentTypeHeader)
 		return &response, nil
 	}
 }
