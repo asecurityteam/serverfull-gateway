@@ -14,7 +14,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	plugins := append(components.Defaults, serverfullgw.Lambda)
+	plugins := append(components.Defaults, serverfullgw.Lambda, serverfullgw.SwaggerUI)
 
 	// Handle the -h flag and print settings.
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
