@@ -121,6 +121,24 @@ func (*SwaggerUIConfigComponent) New(ctx context.Context, conf *SwaggerUIConfig)
 		}
 	}
 
+	// add security configuration so that swagger-ui renders an "Authorize" button
+	spec.Components.SecuritySchemes = make(map[string]*openapi3.SecuritySchemeRef)
+	spec.Components.SecuritySchemes["BearerAuth"] = &openapi3.SecuritySchemeRef{
+		Value: &openapi3.SecurityScheme{
+			Type:   "http",
+			Scheme: "bearer",
+		},
+	}
+	securityRequirements := make(map[string][]string)
+	securityRequirements["BearerAuth"] = make([]string, 0)
+
+	// This mechanism makes the Authorize button applicable to all endpoints, but
+	// a possible friendlier-to-the-user way would be to search through the original
+	// spec and apply only to the spec.Paths.Operations to which "asapvalidate"
+	// plugin is enabled.
+	spec.Security = make([]openapi3.SecurityRequirement, 1)
+	spec.Security = append(spec.Security, securityRequirements)
+
 	return func(wrapped http.RoundTripper) http.RoundTripper {
 		return &swaggerUITransport{
 			Wrapped: wrapped,
