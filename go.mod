@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/asecurityteam/component-aws v0.1.0
 	github.com/asecurityteam/httpstats v0.0.0-20191007213332-05cb203c96fb // indirect
-	github.com/asecurityteam/transportd v0.6.0
+	github.com/asecurityteam/transportd v0.5.0
 	github.com/aws/aws-sdk-go v1.25.9
 	github.com/getkin/kin-openapi v0.2.1-0.20190729060947-8785b416cb32
 	github.com/gobuffalo/packr/v2 v2.0.1

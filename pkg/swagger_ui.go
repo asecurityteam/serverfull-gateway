@@ -22,36 +22,56 @@ type swaggerUITransport struct {
 
 func (r *swaggerUITransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
-	// Find the root path from which swagger should be served.
+	// Find the configured path from which swagger should be served.
 	// For example, if the spec doc has "swaggerui" enabled under /api/{somevar*}
 	// we want to serve swaggerui under /api/*.  Remember transportd will only
 	// call through this RoundTrip on an already-best-matched path, so we only
 	// need to find how the current request path best matches the spec paths to
 	// find the real configured root.
-	configuredRootPath := findConfiguredRootPath(r.Spec, req.URL.Path)
+	configuredPath := findConfiguredPath(r.Spec, req.URL.Path)
+	rootPath := configuredPath[0:strings.LastIndex(configuredPath, "/")]
+	if strings.EqualFold(rootPath, "") {
+		rootPath = configuredPath
+	}
 
-	bytesofspec, _ := json.Marshal(r.Spec) // error is safe to ignore here
-
-	if strings.EqualFold(req.URL.Path, configuredRootPath+"/spec-doc") {
+	if strings.EqualFold(req.URL.Path, rootPath+"/api-doc") {
+		// return the api spec document
+		r.Spec.Paths[configuredPath] = nil
+		bytesofspec, _ := json.Marshal(r.Spec) // error is safe to ignore here
 		return &http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(bytesofspec)), StatusCode: http.StatusOK}, nil
 	} else {
-
-		files := packr.New("swaggerui", "../swaggerui")
-		filePath := req.URL.Path[len(configuredRootPath)+1 : len(req.URL.Path)]
+		files := packr.New("swaggerui", "./swaggerui")
+		filePath := ""
+		if strings.EqualFold(rootPath, req.URL.Path) {
+			// redirect to "URL + /""
+			response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer([]byte(""))), StatusCode: http.StatusSeeOther}
+			response.Header = make(map[string][]string)
+			response.Header.Set("Location", fmt.Sprintf("%s%s", req.URL, "/"))
+			return &response, nil
+		}
+		// find the file (path) that was requested, or default to index.html
+		filePath = req.URL.Path[len(rootPath)+1 : len(req.URL.Path)]
+		if strings.EqualFold(filePath, "") {
+			filePath = "index.html"
+		}
 		fileContents, e := files.Find(filePath)
 		if e != nil {
 			return newError(http.StatusNotFound, fmt.Sprintf("Path was not found: %v", e)), nil
 		}
 
+		// return the requested contents at the URL path
 		response := http.Response{Body: ioutil.NopCloser(bytes.NewBuffer(fileContents)), StatusCode: http.StatusOK}
-		// contentTypeHeader := "text/html"
-		// if strings.HasSuffix(filePath, ".js") {
-		// 	contentTypeHeader = "application/javascript"
-		// } else if strings.HasSuffix(filePath, ".json") {
-		// 	contentTypeHeader = "application/json"
-		// }
+		contentTypeHeader := "text/html"
+		if strings.HasSuffix(filePath, ".js") {
+			contentTypeHeader = "application/javascript"
+		} else if strings.HasSuffix(filePath, ".json") {
+			contentTypeHeader = "application/json"
+		} else if strings.HasSuffix(filePath, ".css") {
+			contentTypeHeader = "text/css"
+		}
 
-		// response.Header.Add("Content-Type", contentTypeHeader)
+		response.Header = make(map[string][]string)
+		response.Header.Set("Content-Type", contentTypeHeader)
 		return &response, nil
 	}
 }
@@ -128,17 +148,13 @@ func newSpecification(source []byte) (*openapi3.Swagger, error) {
 	return swagger, nil
 }
 
-func findConfiguredRootPath(spec *openapi3.Swagger, requestPath string) string {
+func findConfiguredPath(spec *openapi3.Swagger, requestPath string) string {
 	highScore := 0
 	winner := ""
 	for k := range spec.Paths {
 		currentScore := 0
-		pathToCheck := k[0:strings.LastIndex(k, "/")]
-		if pathToCheck == "" {
-			pathToCheck = k
-		}
-		for i := 0; i < min(len(pathToCheck), len(requestPath)); i++ {
-			if pathToCheck[i] == requestPath[i] {
+		for i := 0; i < min(len(k), len(requestPath)); i++ {
+			if k[i] == requestPath[i] {
 				currentScore = currentScore + 1
 			} else {
 				break
@@ -146,11 +162,18 @@ func findConfiguredRootPath(spec *openapi3.Swagger, requestPath string) string {
 		}
 		if currentScore > highScore {
 			highScore = currentScore
-			winner = pathToCheck
+			winner = k
 		}
 
 	}
 	return winner
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
 }
 
 func min(x, y int) int {

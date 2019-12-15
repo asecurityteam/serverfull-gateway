@@ -2,10 +2,10 @@ FROM asecurityteam/sdcli:v1 AS BUILDER
 RUN mkdir -p /go/src/github.com/asecurityteam/serverfull-gateway
 WORKDIR /go/src/github.com/asecurityteam/serverfull-gateway
 COPY --chown=sdcli:sdcli . .
-RUN sdcli go dep
+# RUN sdcli go dep
 RUN GO111MODULE=on go get github.com/gobuffalo/packr/v2/packr2
 RUN packr2
-RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux go build -a -o /opt/app main.go
+RUN GO111MODULE=on GOFLAGS="-mod=vendor" CGO_ENABLED=0 GOOS=linux go build -a -o /opt/app main.go
 
 ##################################
 
