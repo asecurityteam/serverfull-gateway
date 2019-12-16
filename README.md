@@ -26,10 +26,12 @@
 ## Overview
 
 This project is a compliment to
-[Serverfull](https://github.com/asecurityteam/serverfull) and implements a subset of
-the features offered by the AWS API Gateway Proxy for AWS Lambda. It is built on our
+[Serverfull](https://github.com/asecurityteam/serverfull).  It implements a subset of
+the features offered by the AWS API Gateway Proxy for AWS Lambda and offers a plugin configuration option to host a [Swgger-UI](https://swagger.io/tools/swagger-ui/) endpoint. It is built on our
 other project, [transportd](https://github.com/asecurityteam/transportd), which
-bundles our HTTP performance and resiliency tooling into a service.
+bundles our HTTP middleware performance and resiliency tooling into a service.
+
+### AWS Lambda
 
 Generally speaking, if you have access to AWS Lambda then it is probably best to use
 AWS Lambda and the AWS API Gateway Proxy event mapping features that are provided by
@@ -54,11 +56,15 @@ We hope to keep the scope of this project small. Our goals for functionality are
 -   Provide reasonable compatibility with AWS API Gateway features as they relate to
     managing request/response content and linking to AWS Lambda.
 
-We don't intend to add features outside of these goals except as they might be included
+We don't intend to add AWS Lambda features outside of these goals except as they might be included
 from `transportd`.
 
+### Swagger-UI
+
+As is implied by the name "serverfull", this service can host a Swagger-UI endpoint.  It is a termination point, and so should be used on a configured path that is strictly for hosting Swagger-UI.
+
 <a id="markdown-quick-start" name="quick-start"></a>
-## Quick Start
+## Quick Start - AWS Lambda
 
 Everything is driven by an OpenAPI specification. We use extensions to configure
 the server:
@@ -142,6 +148,16 @@ paths:
       responses:
         "200":
           description: "Success"
+  /api/{anything*}:
+    get:
+      description: "Open API"
+      responses:
+        "200":
+          description: "Success."
+      x-transportd:
+        backend: app
+        enabled:
+         - "swaggerui"
 ```
 
 With a configured OpenAPI document:
@@ -166,7 +182,7 @@ The base container is defined in this project's Dockerfile and uses the
 `scratch` base internally.
 
 <a id="markdown-configuration" name="configuration"></a>
-## Configuration
+## Configuration - AWS Lambda
 
 There are a suite of options provided by the `transportd` service that are
 documented with that project. This project adds a plugin for `transportd`
