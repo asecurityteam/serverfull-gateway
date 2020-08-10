@@ -38,8 +38,8 @@ github.com/asecurityteam/component-stat v0.1.0 h1:XTrPmQOyvs7iK5iW1ll6W5Eh7ZKDnZ
 github.com/asecurityteam/component-stat v0.1.0/go.mod h1:OiwAVfs+FntaUimVzyjfzNf4oiKZxM6L73zfTVqfvdo=
 github.com/asecurityteam/component-stat v0.2.0 h1:NT7gw0xK0hcwLv6KjMpFr3SzQE6nHWFPdb5YP8M0I6g=
 github.com/asecurityteam/component-stat v0.2.0/go.mod h1:VxBlEAdBvRMY9kj5ItlB+VVI3m+e24Xj2yU315eFYEY=
-github.com/asecurityteam/httpstats v0.0.0-20200624183102-e32e0f906848 h1:GHMoETgJvf2UdCCDiktAvzW//V+dQMK2NYTyrXpcFbA=
-github.com/asecurityteam/httpstats v0.0.0-20200624183102-e32e0f906848/go.mod h1:YzW2Klfs3JFVF8kPxfWt2xscZxgyhCBkcX4IoJO+BbA=
+github.com/asecurityteam/httpstats v0.0.0-20200806153718-d71ff7ed1047 h1:22XPatpbM6Dpbym7jNwUneD7U78gf18xlcP/IOgba1s=
+github.com/asecurityteam/httpstats v0.0.0-20200806153718-d71ff7ed1047/go.mod h1:YzW2Klfs3JFVF8kPxfWt2xscZxgyhCBkcX4IoJO+BbA=
 github.com/asecurityteam/logevent v0.0.0-20190225122144-b32737d8d51c/go.mod h1:B8p/D2QVPuRA9tiDTByVrXegCsrfy8bWEgnAka23EO0=
 github.com/asecurityteam/logevent v1.1.0 h1:rP9IOHE7tnVwTF4v9AfzmdX+AfagkPZ6Hx/T9l/fVIE=
 github.com/asecurityteam/logevent v1.1.0/go.mod h1:honZzywisDv/eTdOIWaNjJ1p0zgCG68zARUkr35CYDA=
@@ -51,8 +51,8 @@ github.com/asecurityteam/settings v0.4.0 h1:L7fK4WqkvnvglBrfLBgp77LUDR2cxfSNWGFe
 github.com/asecurityteam/settings v0.4.0/go.mod h1:frhlF5kT7WvdiRX3eQlCOjSppbYUfxxjM9xKTvYjcGo=
 github.com/asecurityteam/transport v1.4.0 h1:vHAfsCNWW7jDfhLBUUyU+0daSJ6A0rdIbIP6PsBxGOc=
 github.com/asecurityteam/transport v1.4.0/go.mod h1:0xMNyMZ8UYoW7VK+kP4xCIK/pwPBQCjTMcP+PqQIFBo=
-github.com/asecurityteam/transportd v1.2.2 h1:FhaU/a2alg0kfWgQNya90Uj7vuQjdC8GHNVuBKWWkU4=
-github.com/asecurityteam/transportd v1.2.2/go.mod h1:4LBX65BkWyps03qYZ7oOjWM6ZE6Kd2xSPkUyuu7ZXH4=
+github.com/asecurityteam/transportd v1.2.3 h1:1XcLSMvjgowzptBhgrz1DRrLCpwAm9cpEDScmcFrG7Y=
+github.com/asecurityteam/transportd v1.2.3/go.mod h1:cH+bjiUMIb5PvMnLXKDmj9AhfR8LGVgCELo4+aoWO1k=
 github.com/aws/aws-sdk-go v1.23.6 h1:8V9+bK/BzZh9CkmIzkT1USavOG17fMsWQpWFAMDt3ps=
 github.com/aws/aws-sdk-go v1.23.6/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.25.9 h1:WtVzerf5wSgPwlTTwl+ktCq/0GCS5MI9ZlLIcjsTr+Q=
