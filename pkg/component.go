@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sort"
+	"strings"
 	"text/template"
 
 	awsc "github.com/asecurityteam/component-aws"
@@ -17,6 +19,23 @@ var (
 		"json": func(v interface{}) (string, error) {
 			b, err := json.Marshal(v)
 			return string(b), err
+		},
+		"mapJoin": func(pathParams map[string]string) string {
+			var keys []string
+			var sortedParams []string
+			//Idea is that we can reliably go param1, param2, param3 since maps are not guaranteed order
+			//This does rely on naming of the parameters though
+			for k := range pathParams {
+				keys = append(keys, k)
+			}
+			sort.Strings(keys)
+
+			//Sorted path parameters to run a join on
+			for _, k := range keys {
+				sortedParams = append(sortedParams, pathParams[k])
+			}
+
+			return strings.Join(sortedParams, "/")
 		},
 	}
 )

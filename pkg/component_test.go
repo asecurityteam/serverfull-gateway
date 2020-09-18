@@ -1,7 +1,10 @@
 package serverfullgw
 
 import (
+	"bytes"
 	"context"
+	"github.com/stretchr/testify/assert"
+	"text/template"
 	"testing"
 )
 
@@ -39,4 +42,37 @@ func TestComponentDoesNotAllowInvalidTemplates(t *testing.T) {
 	if err == nil {
 		t.Error("did not fail on bad error template")
 	}
+}
+
+func TestComponentTemplateFunctions(t *testing.T) {
+	jsonTemplate := `#! json . !#`
+	mapJoinTemplate := `#! mapJoin . !#`
+	data := map[string]string{"r2": "sample", "r1": "app", "r3": "name"}
+
+	//TODO this could probably be a table driven one when I'm sure this works for ai-api
+
+	jt, err := template.New("jt").Funcs(fns).Delims("#!", "!#").Parse(jsonTemplate)
+	if err != nil {
+		t.Error("Problem parsing json test template")
+	}
+	var jsonOutput bytes.Buffer
+	err = jt.Execute(&jsonOutput, data)
+	if err != nil {
+		t.Error("Problem running json custom template function")
+	}
+	//Json.Marshal orders the keys for us
+	expectedJson := `{"r1":"app","r2":"sample","r3":"name"}`
+	assert.Equal(t, expectedJson, jsonOutput.String())
+
+	var mapJoinOutput bytes.Buffer
+	mjt, err := template.New("mjt").Funcs(fns).Delims("#!", "!#").Parse(mapJoinTemplate)
+	if err != nil {
+		t.Error("Problem parsing map join test template")
+	}
+	err = mjt.Execute(&mapJoinOutput, data)
+	if err!= nil {
+		t.Error("Problem running mapJoin custom template function")
+	}
+	expectedJoin := "app/sample/name"
+	assert.Equal(t, expectedJoin, mapJoinOutput.String())
 }
