@@ -3,9 +3,10 @@ package serverfullgw
 import (
 	"bytes"
 	"context"
-	"github.com/stretchr/testify/assert"
-	"text/template"
 	"testing"
+	"text/template"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestComponentDoesNotAllowInvalidTemplates(t *testing.T) {
@@ -61,8 +62,8 @@ func TestComponentTemplateFunctions(t *testing.T) {
 		t.Error("Problem running json custom template function")
 	}
 	//Json.Marshal orders the keys for us
-	expectedJson := `{"r1":"app","r2":"sample","r3":"name"}`
-	assert.Equal(t, expectedJson, jsonOutput.String())
+	expectedJSON := `{"r1":"app","r2":"sample","r3":"name"}`
+	assert.Equal(t, expectedJSON, jsonOutput.String())
 
 	var mapJoinOutput bytes.Buffer
 	mjt, err := template.New("mjt").Funcs(fns).Delims("#!", "!#").Parse(mapJoinTemplate)
@@ -70,7 +71,7 @@ func TestComponentTemplateFunctions(t *testing.T) {
 		t.Error("Problem parsing map join test template")
 	}
 	err = mjt.Execute(&mapJoinOutput, data)
-	if err!= nil {
+	if err != nil {
 		t.Error("Problem running mapJoin custom template function")
 	}
 	expectedJoin := "app/sample/name"
