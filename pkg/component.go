@@ -20,7 +20,7 @@ var (
 			b, err := json.Marshal(v)
 			return string(b), err
 		},
-		"mapJoin": func(pathParams map[string]string) string {
+		"reduce": func(pathParams map[string]string) string {
 			var keys []string
 			var sortedParams []string
 			//Idea is that we can reliably go param1, param2, param3 since maps are not guaranteed order

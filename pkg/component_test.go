@@ -47,10 +47,8 @@ func TestComponentDoesNotAllowInvalidTemplates(t *testing.T) {
 
 func TestComponentTemplateFunctions(t *testing.T) {
 	jsonTemplate := `#! json . !#`
-	mapJoinTemplate := `#! mapJoin . !#`
+	reduceTemplate := `#! reduce . !#`
 	data := map[string]string{"r2": "sample", "r1": "app", "r3": "name"}
-
-	//TODO this could probably be a table driven one when I'm sure this works for ai-api
 
 	jt, err := template.New("jt").Funcs(fns).Delims("#!", "!#").Parse(jsonTemplate)
 	if err != nil {
@@ -65,15 +63,15 @@ func TestComponentTemplateFunctions(t *testing.T) {
 	expectedJSON := `{"r1":"app","r2":"sample","r3":"name"}`
 	assert.Equal(t, expectedJSON, jsonOutput.String())
 
-	var mapJoinOutput bytes.Buffer
-	mjt, err := template.New("mjt").Funcs(fns).Delims("#!", "!#").Parse(mapJoinTemplate)
+	var reduceOutput bytes.Buffer
+	rt, err := template.New("rt").Funcs(fns).Delims("#!", "!#").Parse(reduceTemplate)
 	if err != nil {
-		t.Error("Problem parsing map join test template")
+		t.Error("Problem parsing reduce test template")
 	}
-	err = mjt.Execute(&mapJoinOutput, data)
+	err = rt.Execute(&reduceOutput, data)
 	if err != nil {
-		t.Error("Problem running mapJoin custom template function")
+		t.Error("Problem running reduce custom template function")
 	}
-	expectedJoin := "app/sample/name"
-	assert.Equal(t, expectedJoin, mapJoinOutput.String())
+	expectedReduce := "app/sample/name"
+	assert.Equal(t, expectedReduce, reduceOutput.String())
 }
