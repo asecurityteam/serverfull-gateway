@@ -208,7 +208,7 @@ to generate a shape that can be serialized to JSON. The shape we inject is:
 {
     "Request": {
         "URL": {
-            "string": "string"
+            "string": "map[string]string"
         },
         "Query": {
             "string": ["string"]

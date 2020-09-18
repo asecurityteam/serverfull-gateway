@@ -75,7 +75,7 @@ func NewResponse(r *http.Response) (Response, error) {
 	}, nil
 }
 
-// NewRequest converts and http.Request into a template Request.
+// NewRequest converts an http.Request into a template Request.
 func NewRequest(urlParamFn func(context.Context) map[string]string, r *http.Request) (Request, error) {
 	d := make(map[string]interface{})
 	var b []byte
