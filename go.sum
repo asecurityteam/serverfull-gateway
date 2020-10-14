@@ -51,8 +51,8 @@ github.com/asecurityteam/settings v0.4.0 h1:L7fK4WqkvnvglBrfLBgp77LUDR2cxfSNWGFe
 github.com/asecurityteam/settings v0.4.0/go.mod h1:frhlF5kT7WvdiRX3eQlCOjSppbYUfxxjM9xKTvYjcGo=
 github.com/asecurityteam/transport v1.4.0 h1:vHAfsCNWW7jDfhLBUUyU+0daSJ6A0rdIbIP6PsBxGOc=
 github.com/asecurityteam/transport v1.4.0/go.mod h1:0xMNyMZ8UYoW7VK+kP4xCIK/pwPBQCjTMcP+PqQIFBo=
-github.com/asecurityteam/transportd v1.2.3 h1:1XcLSMvjgowzptBhgrz1DRrLCpwAm9cpEDScmcFrG7Y=
-github.com/asecurityteam/transportd v1.2.3/go.mod h1:cH+bjiUMIb5PvMnLXKDmj9AhfR8LGVgCELo4+aoWO1k=
+github.com/asecurityteam/transportd v1.2.4 h1:dbbJfRioaG9OKq6lrnXTeOjVwhP/ErY6DCkn2FPpHU4=
+github.com/asecurityteam/transportd v1.2.4/go.mod h1:cH+bjiUMIb5PvMnLXKDmj9AhfR8LGVgCELo4+aoWO1k=
 github.com/aws/aws-sdk-go v1.23.6 h1:8V9+bK/BzZh9CkmIzkT1USavOG17fMsWQpWFAMDt3ps=
 github.com/aws/aws-sdk-go v1.23.6/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.25.9 h1:WtVzerf5wSgPwlTTwl+ktCq/0GCS5MI9ZlLIcjsTr+Q=
