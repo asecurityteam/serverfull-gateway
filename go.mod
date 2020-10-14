@@ -7,7 +7,7 @@ require (
 	github.com/asecurityteam/transportd v1.2.4
 	github.com/aws/aws-sdk-go v1.25.9
 	github.com/getkin/kin-openapi v0.2.1-0.20190729060947-8785b416cb32 // indirect
-	github.com/golang/mock v1.4.3
+	github.com/golang/mock v1.4.4
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/net v0.0.0-20191009170851-d66e71096ffb // indirect
 	golang.org/x/text v0.3.2 // indirect
