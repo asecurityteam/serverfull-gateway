@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/asecurityteam/component-aws v0.1.0
-	github.com/asecurityteam/transportd v1.2.4
+	github.com/asecurityteam/transportd v1.3.1
 	github.com/aws/aws-sdk-go v1.37.17
 	github.com/getkin/kin-openapi v0.2.1-0.20190729060947-8785b416cb32 // indirect
 	github.com/golang/mock v1.5.0
