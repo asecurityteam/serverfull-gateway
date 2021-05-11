@@ -1,4 +1,4 @@
-FROM asecurityteam/sdcli:v1.1.3 AS BUILDER
+FROM asecurityteam/sdcli:v1.1.4 AS BUILDER
 RUN mkdir -p /go/src/github.com/asecurityteam/serverfull-gateway
 WORKDIR /go/src/github.com/asecurityteam/serverfull-gateway
 COPY --chown=sdcli:sdcli . .
