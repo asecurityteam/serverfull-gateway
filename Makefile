@@ -1,23 +1,21 @@
 TAG := $(shell git rev-parse --short HEAD)
 DIR := $(shell pwd -L)
 
+# SDCLI
+SDCLI_VERSION=v1.1.4
+SDCLI=docker run -ti \
+	--mount src="$(DIR)",target="$(DIR)",type="bind" \
+	-w "$(DIR)" \
+	asecurityteam/sdcli:$(SDCLI_VERSION)
+
 dep:
-	docker run -ti \
-        --mount src="$(DIR)",target="$(DIR)",type="bind" \
-        -w "$(DIR)" \
-        asecurityteam/sdcli:v1.1.1 go dep
+	$(SDCLI) go dep
 
 lint:
-	docker run -ti \
-        --mount src="$(DIR)",target="$(DIR)",type="bind" \
-        -w "$(DIR)" \
-        asecurityteam/sdcli:v1.1.1 go lint
+	$(SDCLI) go lint
 
 test:
-	docker run -ti \
-        --mount src="$(DIR)",target="$(DIR)",type="bind" \
-        -w "$(DIR)" \
-        asecurityteam/sdcli:v1.1.1 go test
+	$(SDCLI) go test
 
 integration:
 	DIR=$(DIR) \
@@ -29,10 +27,7 @@ integration:
 			--exit-code-from test
 
 coverage:
-	docker run -ti \
-        --mount src="$(DIR)",target="$(DIR)",type="bind" \
-        -w "$(DIR)" \
-        asecurityteam/sdcli:v1.1.1 go coverage
+	$(SDCLI) go coverage
 
 doc: ;
 
