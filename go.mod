@@ -1,6 +1,6 @@
 module github.com/asecurityteam/serverfull-gateway
 
-go 1.12
+go 1.17
 
 require (
 	github.com/asecurityteam/component-aws v0.1.0
