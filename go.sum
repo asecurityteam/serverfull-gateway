@@ -59,6 +59,8 @@ github.com/asecurityteam/transportd v1.3.2 h1:hUZR/zVPGqhwCknXsNN2XgwmuenkHjApHW
 github.com/asecurityteam/transportd v1.3.2/go.mod h1:RUdTrOQ/K13ceY0l69hIvdaU7gRjUSGlkyLvyy7FYHc=
 github.com/asecurityteam/transportd v1.6.2 h1:Mc8fIcAfkWqiVOi60T6kOGlwgfPDeYbEcaf2+3iHhu4=
 github.com/asecurityteam/transportd v1.6.2/go.mod h1:P0fCHsTYpmab4NK/WC2R+r+9dr+HB30IfgtQezBNwl4=
+github.com/asecurityteam/transportd v1.6.3 h1:P7M2/duKK8pqzWKnugXV/Sik+UTbqBflwfe+ch1qCU4=
+github.com/asecurityteam/transportd v1.6.3/go.mod h1:qV/LYV/9s8jcKWQNbeyk1gs/qALjWvNVhGInLWAS5f4=
 github.com/aws/aws-sdk-go v1.23.6/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.38.61 h1:wizuqQZe0K4iYJ+Slrs0aSQ4P94FAwqBUHwk46Iz5UA=
 github.com/aws/aws-sdk-go v1.38.61/go.mod h1:hcU610XS61/+aQV88ixoOzUoG7v3b31pl2zKMmprdro=
@@ -302,6 +304,7 @@ github.com/golang/mock v1.2.0/go.mod h1:oTYuIxOrZwtPieC+H1uAHpcLFnEyAGVDL/k47Jfb
 github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
 github.com/golang/mock v1.5.0 h1:jlYHihg//f7RRwuPfptm04yp4s7O6Kw8EZiVYIGcH0g=
 github.com/golang/mock v1.5.0/go.mod h1:CWnOUgYIOo4TcNZ0wHX3YZCqsaM1I1Jvs6v3mP3KVu8=
+github.com/golang/mock v1.6.0 h1:ErTB+efbowRARo13NNdxyJji2egdxLGQhRaY+DUumQc=
 github.com/golang/mock v1.6.0/go.mod h1:p6yTPP+5HYm5mzsMV8JkE6ZKdX+/wYM6Hr+LicevLPs=
 github.com/golang/protobuf v1.1.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
