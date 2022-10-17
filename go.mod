@@ -47,6 +47,6 @@ require (
 
 replace (
 	git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
-	github.com/golang/lint => golang.org/x/lint v0.0.0-20190409202823-959b441ac422
+	github.com/golang/lint => golang.org/x/lint 6edffad5e616
 	sourcegraph.com/sourcegraph/go-diff => github.com/sourcegraph/go-diff v0.5.1
 )
