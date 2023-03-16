@@ -1,7 +1,7 @@
 version: '3'
 services:
   test:
-    image: asecurityteam/sdcli:v1.2.3
+    image: asecurityteam/sdcli:v1.4.0
     command: go integration
     working_dir: ${DIR}
     volumes:
