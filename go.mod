@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/asecurityteam/component-aws v0.1.0
-	github.com/asecurityteam/transportd v1.6.5
+	github.com/asecurityteam/transportd v1.8.0
 	github.com/aws/aws-sdk-go v1.38.61
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.7.0
@@ -22,7 +22,7 @@ require (
 	github.com/asecurityteam/logevent v1.6.1 // indirect
 	github.com/asecurityteam/runhttp v0.4.2 // indirect
 	github.com/asecurityteam/settings v0.4.0 // indirect
-	github.com/asecurityteam/transport v1.6.5 // indirect
+	github.com/asecurityteam/transport v1.6.7 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/getkin/kin-openapi v0.69.0 // indirect

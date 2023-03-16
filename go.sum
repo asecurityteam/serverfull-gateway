@@ -33,8 +33,12 @@ github.com/asecurityteam/settings v0.4.0 h1:L7fK4WqkvnvglBrfLBgp77LUDR2cxfSNWGFe
 github.com/asecurityteam/settings v0.4.0/go.mod h1:frhlF5kT7WvdiRX3eQlCOjSppbYUfxxjM9xKTvYjcGo=
 github.com/asecurityteam/transport v1.6.5 h1:87W10yu/9k1ElLAGq0ieJUICY1ZDf6cnqBkU2p4xJ+A=
 github.com/asecurityteam/transport v1.6.5/go.mod h1:d9ISBYCWrAcVrF+2P5lK7ZVDRtC1waoKG1R5HM+QlDA=
+github.com/asecurityteam/transport v1.6.7 h1:gXe8ZnSrJRvC8cTQJEKSc0ZHCAs3+qGqPn6X4Cx/+1g=
+github.com/asecurityteam/transport v1.6.7/go.mod h1:M/fUeYyqIQwDv9AV2v372IBnsumivy1uBF3/OAI5jbk=
 github.com/asecurityteam/transportd v1.6.5 h1:kRuZIU0NuwwTXMhXKUBxfj3lPPFNUdIQr2VHJh0mKvw=
 github.com/asecurityteam/transportd v1.6.5/go.mod h1:qV/LYV/9s8jcKWQNbeyk1gs/qALjWvNVhGInLWAS5f4=
+github.com/asecurityteam/transportd v1.8.0 h1:Qkoz/Uzd1ZT21F9c56iNUk4/qeoZsNJnaLttWjmHktM=
+github.com/asecurityteam/transportd v1.8.0/go.mod h1:jZSJTUu1FxYAxFo+dhaDNg2JoQM5BmZ5lbzfS6pOgXI=
 github.com/aws/aws-sdk-go v1.23.6/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/aws/aws-sdk-go v1.38.61 h1:wizuqQZe0K4iYJ+Slrs0aSQ4P94FAwqBUHwk46Iz5UA=
 github.com/aws/aws-sdk-go v1.38.61/go.mod h1:hcU610XS61/+aQV88ixoOzUoG7v3b31pl2zKMmprdro=
