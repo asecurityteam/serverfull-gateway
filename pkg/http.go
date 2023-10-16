@@ -86,7 +86,7 @@ func (r *LambdaTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 	defer resp.Body.Close()
 
-	tResp, err := NewResponse(resp)
+	tResp, err := NewResponse(req.Context(), resp)
 	if err != nil {
 		return newError(http.StatusBadGateway, err.Error()), nil
 	}

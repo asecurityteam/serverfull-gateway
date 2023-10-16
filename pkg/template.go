@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/asecurityteam/runhttp"
 )
 
 var (
@@ -56,15 +58,28 @@ type TemplateContext struct {
 }
 
 // NewResponse converts an http.Response into a template Response.
-func NewResponse(r *http.Response) (Response, error) {
+func NewResponse(ctx context.Context, r *http.Response) (Response, error) {
+	logger := runhttp.LoggerFromContext(ctx)
 	d := make(map[string]interface{})
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		logger.Error(struct {
+			Message string `logevent:"message,default=response-body-exception"`
+			Reason  string `logevent:"reason"`
+		}{
+			Reason: err.Error(),
+		})
 		return emptyResponse, err
 	}
 	if len(b) > 0 {
 		err = json.Unmarshal(b, &d)
 		if err != nil {
+			logger.Error(struct {
+				Message string `logevent:"message,default=response-json-unmarshal-exception"`
+				Reason  string `logevent:"reason"`
+			}{
+				Reason: err.Error(),
+			})
 			return emptyResponse, err
 		}
 	}
@@ -77,18 +92,31 @@ func NewResponse(r *http.Response) (Response, error) {
 
 // NewRequest converts an http.Request into a template Request.
 func NewRequest(urlParamFn func(context.Context) map[string]string, r *http.Request) (Request, error) {
+	logger := runhttp.LoggerFromContext(r.Context())
 	d := make(map[string]interface{})
 	var b []byte
 	var err error
 	if r.Body != nil {
 		b, err = ioutil.ReadAll(r.Body)
 		if err != nil {
+			logger.Error(struct {
+				Message string `logevent:"message,default=request-body-exception"`
+				Reason  string `logevent:"reason"`
+			}{
+				Reason: err.Error(),
+			})
 			return emptyRequest, err
 		}
 	}
 	if len(b) > 0 {
 		err = json.Unmarshal(b, &d)
 		if err != nil {
+			logger.Error(struct {
+				Message string `logevent:"message,default=request-json-unmarshal-exception"`
+				Reason  string `logevent:"reason"`
+			}{
+				Reason: err.Error(),
+			})
 			return emptyRequest, err
 		}
 	}
