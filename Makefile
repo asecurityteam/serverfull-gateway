@@ -2,7 +2,7 @@ TAG := $(shell git rev-parse --short HEAD)
 DIR := $(shell pwd -L)
 
 # SDCLI
-SDCLI_VERSION=v1.2.3
+SDCLI_VERSION=v1.5
 SDCLI=docker run -ti \
 	--mount src="$(DIR)",target="$(DIR)",type="bind" \
 	-w "$(DIR)" \
