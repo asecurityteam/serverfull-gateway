@@ -3,7 +3,7 @@ package serverfullgw
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -58,7 +58,7 @@ type TemplateContext struct {
 // NewResponse converts an http.Response into a template Response.
 func NewResponse(r *http.Response) (Response, error) {
 	d := make(map[string]interface{})
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return emptyResponse, err
 	}
@@ -81,7 +81,7 @@ func NewRequest(urlParamFn func(context.Context) map[string]string, r *http.Requ
 	var b []byte
 	var err error
 	if r.Body != nil {
-		b, err = ioutil.ReadAll(r.Body)
+		b, err = io.ReadAll(r.Body)
 		if err != nil {
 			return emptyRequest, err
 		}

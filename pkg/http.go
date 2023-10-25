@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"path"
 	"text/template"
@@ -30,7 +29,7 @@ func newError(code int, reason string) *http.Response {
 		Status:     http.StatusText(code),
 		StatusCode: code,
 		Header:     http.Header{"Content-Type": []string{"application/json"}},
-		Body:       ioutil.NopCloser(bytes.NewReader(b)),
+		Body:       io.NopCloser(bytes.NewReader(b)),
 	}
 }
 
@@ -72,7 +71,7 @@ func (r *LambdaTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.URL.Path = path.Join("/", "2015-03-31", "functions", r.Name, "invocations")
 	req.Header = http.Header{}
 	req.ContentLength = int64(reqBody.Len())
-	req.Body = ioutil.NopCloser(&reqBody)
+	req.Body = io.NopCloser(&reqBody)
 	if r.Async {
 		req.Header.Set("X-Amz-Invocation-Type", "Event")
 	}
@@ -107,11 +106,11 @@ func (r *LambdaTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 	var finalBody io.ReadCloser = http.NoBody
 	if len(tr.Body) > 0 {
-		finalBody = ioutil.NopCloser(bytes.NewReader([]byte(tr.Body)))
+		finalBody = io.NopCloser(bytes.NewReader([]byte(tr.Body)))
 	}
 	if tr.Passthrough && len(tResp.Body) > 0 {
 		finalB, _ := json.Marshal(tResp.Body)
-		finalBody = ioutil.NopCloser(bytes.NewReader(finalB))
+		finalBody = io.NopCloser(bytes.NewReader(finalB))
 	}
 	if tr.Header == nil {
 		tr.Header = make(map[string][]string)
