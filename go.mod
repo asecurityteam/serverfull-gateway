@@ -2,8 +2,6 @@ module github.com/asecurityteam/serverfull-gateway
 
 go 1.21
 
-toolchain go1.21.3
-
 require (
 	github.com/asecurityteam/component-aws v0.2.0
 	github.com/asecurityteam/transportd v1.10.0
@@ -32,7 +30,6 @@ require (
 	github.com/go-chi/chi v4.0.3+incompatible // indirect
 	github.com/go-openapi/jsonpointer v0.19.6 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
-	github.com/go-yaml/yaml v2.1.0+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
