@@ -6,6 +6,7 @@ SDCLI_VERSION=v1.5
 SDCLI=docker run -ti \
 	--mount src="$(DIR)",target="$(DIR)",type="bind" \
 	-w "$(DIR)" \
+	-e "GOFLAGS= -buildvcs=false" \
 	asecurityteam/sdcli:$(SDCLI_VERSION)
 
 dep:
