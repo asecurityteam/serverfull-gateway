@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	serverfullgw "github.com/asecurityteam/serverfull-gateway/pkg"
@@ -36,7 +35,7 @@ func main() {
 	fileContent := []byte(os.Getenv("TRANPSPORTD_OPENAPI_SPECIFICATION_CONTENT"))
 	var errRead error
 	if fileName != "" {
-		fileContent, errRead = ioutil.ReadFile(fileName)
+		fileContent, errRead = os.ReadFile(fileName)
 		if errRead != nil {
 			panic(errRead)
 		}
