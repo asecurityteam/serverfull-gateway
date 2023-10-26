@@ -3,6 +3,7 @@ package serverfullgw
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -74,11 +75,12 @@ func NewResponse(ctx context.Context, r *http.Response) (Response, error) {
 	if len(b) > 0 {
 		err = json.Unmarshal(b, &d)
 		if err != nil {
+			reason := fmt.Sprintf("response body is not valid JSON: %s, error: %s", string(b), err.Error())
 			logger.Error(struct {
 				Message string `logevent:"message,default=response-json-unmarshal-exception"`
 				Reason  string `logevent:"reason"`
 			}{
-				Reason: err.Error(),
+				Reason: reason,
 			})
 			return emptyResponse, err
 		}
