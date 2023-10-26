@@ -3,7 +3,7 @@ package serverfullgw
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -56,7 +56,7 @@ func newRequest(headers MultiMap, query MultiMap) *http.Request {
 }
 func newRequestBody(headers MultiMap, query MultiMap, body string) *http.Request {
 	req := newRequest(headers, query)
-	req.Body = ioutil.NopCloser(bytes.NewBufferString(body))
+	req.Body = io.NopCloser(bytes.NewBufferString(body))
 	req.ContentLength = int64(len(body))
 	return req
 }
@@ -162,7 +162,7 @@ func TestNewResponse(t *testing.T) {
 				ContentLength: int64(len(`notjson`)),
 				Header:        http.Header(headers),
 				StatusCode:    200,
-				Body:          ioutil.NopCloser(bytes.NewBufferString(`notjson`)),
+				Body:          io.NopCloser(bytes.NewBufferString(`notjson`)),
 			}},
 			want:    Response{},
 			wantErr: true,
@@ -173,7 +173,7 @@ func TestNewResponse(t *testing.T) {
 				ContentLength: int64(len(`{"a": "b"}`)),
 				Header:        http.Header(headers),
 				StatusCode:    200,
-				Body:          ioutil.NopCloser(bytes.NewBufferString(`{"a": "b"}`)),
+				Body:          io.NopCloser(bytes.NewBufferString(`{"a": "b"}`)),
 			}},
 			want: Response{
 				Status: 200,

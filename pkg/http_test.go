@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"path"
 	"reflect"
@@ -61,7 +61,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 200,
 				Status:     http.StatusText(200),
-				Body:       ioutil.NopCloser(bytes.NewBufferString(`{"v2": "R"}`)),
+				Body:       io.NopCloser(bytes.NewBufferString(`{"v2": "R"}`)),
 				Header:     http.Header{"Content-Type": []string{"application/json"}},
 			},
 			wantErr:           false,
@@ -117,7 +117,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 200,
 				Status:     http.StatusText(200),
-				Body:       ioutil.NopCloser(bytes.NewBufferString(`{"v":"R"}`)),
+				Body:       io.NopCloser(bytes.NewBufferString(`{"v":"R"}`)),
 				Header:     http.Header{"Content-Type": []string{"application/json"}},
 			},
 			wantErr:           false,
@@ -145,7 +145,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 400,
 				Status:     http.StatusText(400),
-				Body: ioutil.NopCloser(bytes.NewBufferString(
+				Body: io.NopCloser(bytes.NewBufferString(
 					`{"code":400,"status":"Bad Request"}`,
 				)),
 				Header: http.Header{
@@ -177,7 +177,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 500,
 				Status:     http.StatusText(500),
-				Body: ioutil.NopCloser(bytes.NewBufferString(
+				Body: io.NopCloser(bytes.NewBufferString(
 					`{"code":500,"status":"Internal Server Error"}`,
 				)),
 				Header: http.Header{
@@ -209,7 +209,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 500,
 				Status:     http.StatusText(500),
-				Body: ioutil.NopCloser(bytes.NewBufferString(
+				Body: io.NopCloser(bytes.NewBufferString(
 					`{"code":500,"status":"Internal Server Error"}`,
 				)),
 				Header: http.Header{
@@ -241,7 +241,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 			want: &http.Response{
 				StatusCode: 500,
 				Status:     http.StatusText(500),
-				Body: ioutil.NopCloser(bytes.NewBufferString(
+				Body: io.NopCloser(bytes.NewBufferString(
 					`{"code":500,"status":"Internal Server Error"}`,
 				)),
 				Header: http.Header{
@@ -294,7 +294,7 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 					},
 				).Return(&http.Response{
 					StatusCode: 200,
-					Body:       ioutil.NopCloser(bytes.NewBufferString(lambdaResponse)),
+					Body:       io.NopCloser(bytes.NewBufferString(lambdaResponse)),
 					// Setting ContentLength to zero in order to test for cases where the body
 					// is non-zero but the length is not reported. A Go HTTP server usually
 					// writes the content length for responses but only if the body is under
@@ -318,8 +318,8 @@ func TestLambdaTransport_RoundTrip(t *testing.T) {
 				if !reflect.DeepEqual(got.Header, tt.want.Header) {
 					t.Errorf("LambdaTransport.RoundTrip().Status = %v, want %v", got.Header, tt.want.Header)
 				}
-				gotB, _ := ioutil.ReadAll(got.Body)
-				wantB, _ := ioutil.ReadAll(tt.want.Body)
+				gotB, _ := io.ReadAll(got.Body)
+				wantB, _ := io.ReadAll(tt.want.Body)
 				if !tt.wantErrorResponse {
 					if !bytes.Equal(gotB, wantB) {
 						t.Errorf("LambdaTransport.RoundTrip().Body = %v, want %v", string(gotB), string(wantB))
