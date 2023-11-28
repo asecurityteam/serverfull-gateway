@@ -25,6 +25,8 @@
 <a id="markdown-overview" name="overview"></a>
 ## Overview
 
+**Deprecation Notice:** This package will be archived and made read-only on January 30th, 2024. After January 30th this repo will cease to be maintained on Github.
+
 This project is a compliment to
 [Serverfull](https://github.com/asecurityteam/serverfull) and implements a subset of
 the features offered by the AWS API Gateway Proxy for AWS Lambda. It is built on our
