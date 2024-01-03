@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/asecurityteam/component-aws v0.2.0
-	github.com/asecurityteam/transportd v1.11.0
+	github.com/asecurityteam/transportd v1.10.0
 	github.com/aws/aws-sdk-go v1.46.3
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.4
@@ -18,7 +18,7 @@ require (
 	github.com/asecurityteam/component-log v0.2.1 // indirect
 	github.com/asecurityteam/component-signals v0.2.0 // indirect
 	github.com/asecurityteam/component-stat v0.2.0 // indirect
-	github.com/asecurityteam/httpstats/v2 v2.4.0 // indirect
+	github.com/asecurityteam/httpstats v0.0.0-20200806153718-d71ff7ed1047 // indirect
 	github.com/asecurityteam/logevent v1.6.1 // indirect
 	github.com/asecurityteam/runhttp v0.6.1 // indirect
 	github.com/asecurityteam/settings v1.0.0 // indirect
@@ -42,8 +42,8 @@ require (
 	github.com/rs/zerolog v1.29.0 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/vincent-petithory/dataurl v1.0.0 // indirect
-	golang.org/x/net v0.9.0 // indirect
-	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
